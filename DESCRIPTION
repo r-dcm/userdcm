@@ -13,10 +13,18 @@ License: MIT + file LICENSE
 URL: https://userdcm.r-dcm.org, https://github.com/r-dcm/userdcm
 BugReports: https://github.com/r-dcm/userdcm/issues
 Suggests: 
-    testthat (>= 3.0.0)
+    cli,
+    rlang,
+    testthat (>= 3.0.0),
+    withr
 Config/Needs/website: r-dcm/rdcmtemplate
 Config/testthat/edition: 3
 Encoding: UTF-8
 Language: en-US
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.1
+Imports: 
+    desc,
+    fs,
+    rprojroot,
+    usethis
