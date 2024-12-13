@@ -7,11 +7,19 @@ Authors@R: c(
     person("University of Kansas", role = "cph"),
     person("Institute of Education Sciences", role = "fnd")
   )
-Description: Automate package setup tasks for r-dcm packages that are otherwise
-    performed manually.
+Description: Automate package setup tasks for r-dcm packages that are
+    otherwise performed manually.
 License: MIT + file LICENSE
 URL: https://github.com/r-dcm/userdcm
 BugReports: https://github.com/r-dcm/userdcm/issues
+Imports: 
+    desc,
+    fs,
+    glue,
+    purrr,
+    rprojroot,
+    usethis,
+    yaml
 Suggests: 
     cli,
     rlang,
@@ -22,11 +30,3 @@ Encoding: UTF-8
 Language: en-US
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.1
-Imports: 
-    desc,
-    fs,
-    glue,
-    purrr,
-    rprojroot,
-    usethis,
-    yaml
