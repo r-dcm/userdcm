@@ -1,6 +1,6 @@
-url: https://userdcm.r-dcm.org
+url: https://userdcm.r-dcm.org/
 
 template:
-  package: rdcmtemplate
+  package: r-dcm/rdcmtemplate
   bootstrap: 5
 
