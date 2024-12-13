@@ -5,10 +5,10 @@
 ## Delete such files manually.
 session_temp_proj <- proj_find(path_temp())
 if (!is.null(session_temp_proj)) {
-  Rproj_files <- fs::dir_ls(session_temp_proj, glob = "*.Rproj")
+  rproj_files <- fs::dir_ls(session_temp_proj, glob = "*.Rproj")
   cli::cli_bullets(c(
-    "x" = "Rproj {cli::qty(length(Rproj_files))} file{?s} found at or above session temp dir:",
-    bulletize(usethis_map_cli(Rproj_files)),
+    "x" = "Rproj {cli::qty(length(rproj_files))} file{?s} found at or above session temp dir:",
+    bulletize(usethis_map_cli(rproj_files)),
     "!" = "Expect this to cause spurious test failures."
   ))
 }

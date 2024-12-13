@@ -11,7 +11,6 @@ Automate package setup tasks for r-dcm packages that are otherwise performed man
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://userdcm.r-dcm.org}
   \item \url{https://github.com/r-dcm/userdcm}
   \item Report bugs at \url{https://github.com/r-dcm/userdcm/issues}
 }

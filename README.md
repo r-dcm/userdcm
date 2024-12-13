@@ -32,3 +32,13 @@ This is a basic example which shows you how to solve a common problem:
 library(userdcm)
 ## basic example code
 ```
+
+------------------------------------------------------------------------
+
+## Contributions and Code of Conduct
+
+Contributions are welcome. To ensure a smooth process, please review the
+[Contributing Guide](https://userdcm.r-dcm.org/CONTRIBUTING.html).
+Please note that the userdcm project is released with a [Contributor
+Code of Conduct](https://userdcm.r-dcm.org/CODE_OF_CONDUCT.html). By
+contributing to this project, you agree to abide by its terms.

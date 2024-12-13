@@ -18,7 +18,8 @@ NULL
 use_rdcm_contributing <- function() {
   use_dot_github()
   data <- list(
-    Package = project_name()
+    Package = project_name(),
+    github_spec = target_repo_spec(ask = FALSE)
   )
   use_template(
     "rdcm-contributing.md",
@@ -41,53 +42,77 @@ use_rdcm_coc <- function() {
   use_code_of_conduct(contact = "wjakethompson@gmail.com", path = ".github")
 }
 
-
-# Github utilities -------------------------------------------------------------
-use_dot_github <- function(ignore = TRUE) {
-  use_directory(".github", ignore = ignore)
-  use_git_ignore("*.html", directory = ".github")
+#' @export
+#' @rdname rdcm
+use_rdcm_issue_template <- function() {
+  use_dot_github()
+  use_directory(path(".github", "ISSUE_TEMPLATE"))
+  use_template(
+    "rdcm-issue.md",
+    path(".github", "ISSUE_TEMPLATE", "issue_template.md"),
+    package = "userdcm"
+  )
 }
 
-project_name <- function(base_path = proj_get()) {
-  if (is_package(base_path)) {
-    proj_desc(base_path)$get_field("Package")
-  } else {
-    fs::path_file(base_path)
+#' @export
+#' @rdname rdcm
+use_rdcm_github <- function() {
+  use_dot_github()
+  use_rdcm_contributing()
+  use_rdcm_issue_template()
+  use_rdcm_coc()
+}
+
+#' @export
+#' @rdname rdcm
+use_rdcm_pkgdown <- function() {
+  tr <- target_repo(github_get = TRUE, ok_configs = c("ours", "fork"))
+  check_can_push(tr = tr, "to turn on GitHub Pages")
+
+  use_pkgdown()
+  site <- use_github_pages()
+  use_github_action("pkgdown")
+
+  site_url <- rdcm_url(url = site$html_url, tr = tr)
+  use_pkgdown_url(url = site_url, tr = tr)
+
+  if (is_in_rdcm_org()) {
+    proj_desc_field_update("Config/Needs/website", "r-dcm/rdcmtemplate",
+                           append = TRUE)
   }
 }
 
-proj_desc <- function(path = proj_get()) {
-  desc::desc(file = path)
+
+
+rdcm_url <- function(url, tr = NULL) {
+  tr <- tr %||% target_repo(github_get = TRUE)
+  if (!rlang::is_interactive() ||
+        !tr$repo_owner %in% c("r-dcm")) {
+    return(url)
+  }
+
+  custom_url <- glue::glue("https://{tr$repo_name}.{tr$repo_owner}.org")
+  if (grepl(glue::glue("{custom_url}/?"), url)) {
+    return(url)
+  }
+  if (ui_yep(c(
+    "i" = "{.val {tr$repo_name}} is owned by the {.val {tr$repo_owner}} GitHub
+           organization.",
+    " " = "Shall we configure {.val {custom_url}} as the (eventual) pkgdown URL?"
+  ))) {
+    custom_url
+  } else {
+    url
+  }
 }
 
-is_package <- function(base_path = proj_get()) {
-  res <- tryCatch(
-    rprojroot::find_package_root_file(path = base_path),
-    error = function(e) NULL
-  )
-  !is.null(res)
-}
-
-proj_find <- function(path = ".") {
-  tryCatch(
-    rprojroot::find_root(proj_crit(), path = path),
-    error = function(e) NULL
-  )
-}
-
-read_utf8 <- function(path, n = -1L) {
-  base::readLines(path, n = n, encoding = "UTF-8", warn = FALSE)
-}
-
-proj <- new.env(parent = emptyenv())
-
-proj_get_ <- function() proj$cur
-
-proj_crit <- function() {
-  rprojroot::has_file(".here") |
-    rprojroot::is_rstudio_project |
-    rprojroot::is_r_package |
-    rprojroot::is_git_root |
-    rprojroot::is_remake_project |
-    rprojroot::is_projectile_project
+is_in_rdcm_org <- function() {
+  if (!is_package()) {
+    return(FALSE)
+  }
+  desc <- proj_desc()
+  urls <- desc$get_urls()
+  dat <- parse_github_remotes(urls)
+  dat <- dat[dat$host == "github.com", ]
+  purrr::some(dat$repo_owner, ~ .x %in% c("r-dcm"))
 }

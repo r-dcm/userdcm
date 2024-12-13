@@ -4,11 +4,20 @@
 \alias{rdcm}
 \alias{use_rdcm_contributing}
 \alias{use_rdcm_coc}
+\alias{use_rdcm_issue_template}
+\alias{use_rdcm_github}
+\alias{use_rdcm_pkgdown}
 \title{Helpers for r-dcm development}
 \usage{
 use_rdcm_contributing()
 
 use_rdcm_coc()
+
+use_rdcm_issue_template()
+
+use_rdcm_github()
+
+use_rdcm_pkgdown()
 }
 \description{
 These helpers are adapted from \link[usethis:tidyverse]{usethis::tidyverse} to apply common

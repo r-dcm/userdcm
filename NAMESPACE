@@ -2,5 +2,8 @@
 
 export(use_rdcm_coc)
 export(use_rdcm_contributing)
+export(use_rdcm_github)
+export(use_rdcm_issue_template)
+export(use_rdcm_pkgdown)
 import(fs)
 import(usethis)

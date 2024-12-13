@@ -1,0 +1,11 @@
+linters: linters_with_defaults() # see vignette("lintr")
+exclusions: list(
+    "R/github-meta.R" = list(
+      line_length_linter = Inf
+    ),
+    "tests/testthat/helper.R" = list(
+      line_length_linter = Inf,
+      object_usage_linter = Inf
+    )
+  )
+encoding: "UTF-8"
